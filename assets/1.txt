@@ -1,0 +1,38 @@
+# hosts
+172.168.1.5 www.dbmanage.oa.com
+172.168.1.5 dev.osmp.pactera.com
+172.168.1.5 alpha.osmp.pactera.com
+
+# svn
+svn://172.168.1.5/osmp_alpha
+developer_duanjinfu = osmph8WXo
+
+# 数据库
+
+http://www.dbmanage.oa.com/phpmyadmin/
+账号：osmp_dev
+密码：osmp2020
+# 超级账户
+'username' => 'osmpuser',
+'password' => 'Osmp2020',
+
+
+osmp测试账号 S1000000 Yzj2020
+
+
+服务器密码 172.168.1.5 eSmart@2018
+
+
+
+同学会
+
+svn://172.168.1.5/txh_alpha
+developer_jinfu = txhnEE2Xw6
+
+数据库
+172.168.1.5:3306
+txdh_dev
+txdh2021
+
+线上地址 http://dev.txdh.com/
+
