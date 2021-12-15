@@ -5,19 +5,20 @@ import (
 	"fmt"
 	"net/http"
 )
+
 //方便json返回
 type H map[string]interface{}
 
 type Context struct {
 	Writer http.ResponseWriter
-	Req *http.Request
-	Path string
+	Req    *http.Request
+	Path   string
 	Method string
 	//响应状态码
 	StatusCode int
 	//动态路由 变量集合
 	Params map[string]string
-	// 中间件函数集合
+	// 中间件函数集合  包含group中间件函数 + handler处理函数
 	handlers []HandlerFunc
 	index    int
 }
@@ -25,12 +26,13 @@ type Context struct {
 func newContext(w http.ResponseWriter, req *http.Request) *Context {
 	return &Context{
 		Writer: w,
-		Req: req,
-		Path: req.URL.Path,
+		Req:    req,
+		Path:   req.URL.Path,
 		Method: req.Method,
 		index:  -1,
 	}
 }
+
 //中间件next方法 仅仅调用 下一个函数即可，逐层返回
 func (c *Context) Next() {
 	c.index++
@@ -72,6 +74,7 @@ func (c *Context) JSON(code int, obj interface{}) {
 	if err := json.NewEncoder(c.Writer).Encode(obj); err != nil {
 		http.Error(c.Writer, err.Error(), 500)
 	}
+
 }
 
 func (c *Context) Data(code int, data []byte) {
@@ -84,6 +87,8 @@ func (c *Context) HTML(code int, html string) {
 	c.Status(code)
 	c.Writer.Write([]byte(html))
 }
+
+//获取路由绑定的参数
 func (c *Context) Param(key string) string {
 	value, _ := c.Params[key]
 	return value
