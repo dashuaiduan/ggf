@@ -47,9 +47,9 @@ func (group *RouterGroup) Use(middlewares ...HandlerFunc) {
 	group.middlewares = append(group.middlewares, middlewares...)
 }
 
-//comp 分组 后面的url
+//comp 分组 get post 注册的url 也就是分组后面的url
 func (group *RouterGroup) addRoute(method string, comp string, handler HandlerFunc) {
-	pattern := group.prefix + comp
+	pattern := group.prefix + comp // 完整url
 	group.engine.router.addRoute(method, pattern, handler)
 }
 

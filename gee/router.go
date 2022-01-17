@@ -6,10 +6,9 @@ import (
 )
 
 type router struct {
-	roots map[string]*node
+	roots    map[string]*node
 	handlers map[string]HandlerFunc
 }
-
 
 func newRouter() *router {
 	return &router{
@@ -18,7 +17,7 @@ func newRouter() *router {
 	}
 }
 
-// Only one * is allowed
+// 切分路劲的每个部分
 func (r *router) parsePattern(pattern string) []string {
 	vs := strings.Split(pattern, "/")
 
@@ -33,7 +32,8 @@ func (r *router) parsePattern(pattern string) []string {
 	}
 	return parts
 }
-//method 请求方式  pattern 完整路径  handler 处理回调
+
+//method 请求方式  pattern 分组完整路径  handler 处理回调
 func (r *router) addRoute(method string, pattern string, handler HandlerFunc) {
 	parts := r.parsePattern(pattern)
 
@@ -76,14 +76,14 @@ func (r *router) getRoute(method string, path string) (*node, map[string]string)
 	return nil, nil
 }
 
-func (r *router) handle(c *Context)  {
+func (r *router) handle(c *Context) {
 	n, params := r.getRoute(c.Method, c.Path)
 	if n != nil {
 		c.Params = params
 		key := c.Method + "-" + n.pattern
 		//将当前url处理函数 添加到中间件数组
 		c.handlers = append(c.handlers, r.handlers[key])
-	}else{
+	} else {
 		c.handlers = append(c.handlers, func(c *Context) {
 			c.String(http.StatusNotFound, "404 NOT FOUND: %s\n", c.Path)
 		})
