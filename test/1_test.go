@@ -45,7 +45,20 @@ func getA() aa {
 }
 
 func Test3(t *testing.T) {
-	a := getA()
-	a.data[0] = 66
-	fmt.Println(a)
+	//a := getA()
+	//a.data[0] = 66
+	//fmt.Println(a)
+	var a interface{}
+	a = 1
+	//b,ok := a.(int)
+	fmt.Println(a.(int))
+}
+func bbbb() (a int, b bool) {
+	return aaaa()
+}
+
+func aaaa() (a int, b bool) {
+	a++
+	b = true
+	return
 }
