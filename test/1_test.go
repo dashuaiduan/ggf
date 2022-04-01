@@ -2,6 +2,8 @@ package test
 
 import (
 	"fmt"
+	"hash/crc32"
+	"sort"
 	"testing"
 	"time"
 )
@@ -61,4 +63,19 @@ func aaaa() (a int, b bool) {
 	a++
 	b = true
 	return
+}
+
+func Test98(t *testing.T) {
+	a := crc32.ChecksumIEEE([]byte("5lkdgklfjkg"))
+	fmt.Println(a)
+}
+
+func Test99(t *testing.T) {
+	a := []int{6, 3, 7, 34, 4, 66}
+	sort.Ints(a)
+	key := sort.Search(len(a), func(i int) bool {
+		return a[i] == 34
+	})
+	fmt.Println(a)
+	fmt.Println(key)
 }

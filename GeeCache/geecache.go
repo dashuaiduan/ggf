@@ -24,7 +24,7 @@ type GetterFunc func(key string) ([]byte, error)
 
 // Get implements Getter interface function
 func (f GetterFunc) Get(key string) ([]byte, error) {
-	return f(key)
+	return f(key) //  调用函数本身
 }
 
 var (
