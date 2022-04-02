@@ -35,8 +35,8 @@ func (m *Map) Add(keys ...string) {
 	for _, key := range keys {
 		for i := 0; i < m.replicas; i++ { // 生成当前真实节点的 虚拟节点
 			hash := int(m.hash([]byte(strconv.Itoa(i) + key))) // 生成当前虚拟节点的 哈希值
-			m.keys = append(m.keys, hash)                      //添加到哈希环
-			m.hashMap[hash] = key                              //加虚拟节点和真实节点的映射关系。
+			m.keys = append(m.keys, hash)                      //添加到哈希环		16 26 6这种格式
+			m.hashMap[hash] = key                              //加虚拟节点和真实节点的映射关系。   16 26 6 ===> 6  这种格式map
 		}
 	}
 	sort.Ints(m.keys) // 将虚拟环 排序  本身 会打乱顺序  因为每个虚拟节点 生成的int哈希值 是随机的
@@ -51,8 +51,8 @@ func (m *Map) Get(key string) string {
 	hash := int(m.hash([]byte(key)))
 	// Binary search for appropriate replica.
 	idx := sort.Search(len(m.keys), func(i int) bool { // 使用二分查找法
-		return m.keys[i] >= hash // 大于当前key的 hash值  的 第一个节点 索引
+		return m.keys[i] >= hash // 大于当前key的 hash值  的 第一个节点 索引	没找到的情况下 返回len
 	})
 
-	return m.hashMap[m.keys[idx%len(m.keys)]]
+	return m.hashMap[m.keys[idx%len(m.keys)]] //没找到的情况下 返回len  取数据肯定是错的 ，因此把没找到的数据放到第一个节点 也就形成了一个环状
 }
