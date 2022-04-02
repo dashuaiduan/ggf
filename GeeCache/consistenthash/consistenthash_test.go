@@ -16,7 +16,7 @@ func TestHashing(t *testing.T) {
 	hash.Add("6", "4", "2")
 
 	testCases := map[string]string{
-		"2":  "2",
+		"2":  "2", // 此处k 是缓存名称k  v 是对应的真实节点 ，test验证 key根据哈希获得真实的节点 是否正确
 		"11": "2",
 		"23": "4",
 		"27": "2",
