@@ -16,7 +16,7 @@ func (c *cache) add(key string, value ByteView) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	if c.lru == nil {
-		c.lru = lru.New(c.cacheBytes, nil)
+		c.lru = lru.New(c.cacheBytes, nil) // 延迟创建
 	}
 	c.lru.Add(key, value)
 }
